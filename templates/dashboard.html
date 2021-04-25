@@ -1,0 +1,71 @@
+{% extends 'base.html' %}{% load crispy_forms_tags %} {% block content %}
+<!--static -->
+{% load static %}
+
+<div class="dashboard-box">
+  <div class="center">
+    <h1>Dashboard</h1>
+    <h2>Welcome {{name}}</h2>
+
+    {% if perms.blog.add_blog %}
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#exampleModal"
+      data-whatever="@fat"
+    >
+      Add Blog
+    </button>
+
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New Blog</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class="form-group">{{ form|crispy }}</div>
+              <input type="submit" class="btn btn-primary mb-2" value="Add" />
+              <input
+                type="button"
+                class="btn btn-secondary mb-2"
+                data-dismiss="modal"
+                value="Close"
+              />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+ 
+      <h4><span class="badge badge-warning">Permission not available!</span></h4>
+  
+    {% endif %}
+    <a  href="{% url 'logout' %}">Logout</a>
+    <!--messages-->
+    {% for messages in messages%} {{ messages}} {% endfor %}
+  </div>  
+</div>
+
+
+{% endblock %}
